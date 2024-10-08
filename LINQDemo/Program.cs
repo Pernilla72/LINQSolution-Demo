@@ -37,10 +37,35 @@ namespace LINQDemo
                 new Patient() {FirstName = "Per", LastName = "Persson", City = "Göteborg", YearOfBirth = 1966, HeightInCm = 178, WeightInKg = 91}
             };
 
-            //Plocka ut alla patienter vars BMI översktiger 25
 
-            //var q3 = patients
-            //    .Where(p => p.BMI < 28);
+            var sortedPatients = patients
+                .OrderBy(p => p.LastName)  //I förrsta hand
+                .ThenBy(p => p.FirstName)  //i andra hand
+                .ThenBy(p => p.YearOfBirth);  //I tredje hand.
+
+            Console.WriteLine("=====================");
+
+            foreach (var patient in sortedPatients)
+            {
+                Console.WriteLine(patient);
+            }
+            Console.WriteLine("=====================");
+
+
+            Patient myPatient = patients
+                .First(p => p.LastName == "Karlsson");
+            Console.WriteLine("=== My Patient ===");
+            Console.WriteLine(myPatient);
+            Console.WriteLine("=== My Patient ===");
+
+
+            //Plocka ut alla patienter vars BMI översktiger 25
+            var q3 = patients
+                .Where(p => p.BMI < 28);
+            foreach (var pat in q3)
+            {
+                Console.WriteLine(patients);
+            }
 
             //var q4 = q3
             //    .Select(p => $"{p.FirstName} {p.LastName} har ett BMI, {p.BMI} som ligger under gränsvärdet 28");
@@ -49,13 +74,16 @@ namespace LINQDemo
                 .Where(p => p.BMI < 28)
                 .OrderByDescending(p => p.YearOfBirth)
                 .Select(p => $"{p.FirstName} {p.LastName} har ett BMI, {p.BMI} som ligger under 28");
-                
+
+           
 
             foreach (var pat in q6)
             {
                 Console.WriteLine(pat);
             }
-               // Average är exempel på en non-defferable LINQ metod (utförs direkt)
+
+
+            // Average är exempel på en non-defferable LINQ metod (utförs direkt)
             var averageAge = patients
                 .Average(patients => DateTime.Now.Year - patients.YearOfBirth);
 
